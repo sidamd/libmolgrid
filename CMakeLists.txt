@@ -100,10 +100,6 @@ else()
 endif()
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
-add_subdirectory(src)
-add_subdirectory(python)
-add_subdirectory(docs)
-
 if (DEFINED USE_ROCM)
 	#  target_compile_options(libmolgrid_shared PRIVATE  -D__HIP_ROCclr__ -std=c++11 -isystem /opt/rocm-4.1.0/llvm/lib/clang/12.0.0/include/.. -isystem /opt/rocm-4.1.0/hsa/include -D__HIP_ROCclr__ -isystem /opt/rocm-4.1.0/hip/include -O3)
 include( ROCMSetupVersion )
@@ -165,7 +161,14 @@ if( CMAKE_CXX_COMPILER MATCHES ".*/hipcc$" )
 endif( )
 
 message(STATUS "Using AMDGPU_TARGETS: ${AMDGPU_TARGETS}")
+foreach(amdgpu_target ${AMDGPU_TARGETS})
+  set(CMAKE_CXX_FLAGS " --amdgpu-target=${amdgpu_target} ${CMAKE_CXX_FLAGS} ")
+endforeach()
+message(STATUS "DEBUG-5 CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
+add_subdirectory(src)
+add_subdirectory(python)
+add_subdirectory(docs)
 
 # enable testing
 include(CTest)
