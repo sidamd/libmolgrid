@@ -124,7 +124,7 @@ list( APPEND CMAKE_PREFIX_PATH ${USE_ROCM}/llvm ${USE_ROCM}/hip )
 if(NOT SKIP_LIBRARY)
   message(STATUS "DEBUG-3 CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
   set( Tensile_ARCHITECTURE "all" CACHE STRING "Tensile to use which architecture?")
-  set_property( CACHE Tensile_ARCHITECTURE PROPERTY STRINGS all gfx803 gfx900 gfx906:xnack- gfx908:xnack-)
+  set_property( CACHE Tensile_ARCHITECTURE PROPERTY STRINGS all gfx906:xnack- gfx908:xnack-)
   # -DTensile_ARCHITECTURE= set by install.sh for builds with and without tensile
 
   # Detect if target ID syntax if supported for default all AMDGPU_TARGETS list
@@ -136,9 +136,9 @@ if(NOT SKIP_LIBRARY)
     string(REGEX MATCH ".mcode\-object\-version" TARGET_ID_SUPPORT ${CXX_OUTPUT})
   endif()
   if(TARGET_ID_SUPPORT)
-    set(target_list "gfx803;gfx900;gfx906:xnack-;gfx908:xnack-")
+    set(target_list "gfx906:xnack-;gfx908:xnack-")
   else()
-    set(target_list "gfx803;gfx900;gfx906;gfx908")
+    set(target_list "gfx906;gfx908")
   endif()
   set(ALL_TARGETS ${target_list} CACHE STRING "List of specific machine types for library to target")
 
